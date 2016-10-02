@@ -5,6 +5,9 @@
  * Caitlin Vinci
  * caitlinvinci@gmail.com
  * 9/25/2016
+ * 
+ * This program uses the quicksort algorithm provided in 
+ * lecture code. 
  */
 import java.util.*; 
 
@@ -136,36 +139,49 @@ public class PairSums {
         qSort(arr, 0, arr.length - 1); 
     }
     
+    /*
+     * findPairsFaster uses two variables, i and j to start at opposite
+     * ends of the given array and check the integers to find sums of the 
+     * given integer k. If the sum is found, a print statement is initiated
+     * so that the finding can be displayed. 
+     * When i and j pass eachother, or when i or j
+     * make it to the end of the array, the method returns. 
+     * 
+     * After the randomly generated array created in the main method is sorted
+     * with quicksort (which has an O(n log n) efficiency), this method only needs
+     * to make n comparisons to check all integers.
+     */
     public static void findPairsFaster(int k, int [] arr) {
-        if (arr.length == 0 || arr == null)
+        if (arr.length < 2 || arr == null)
             return; 
         int sum = k;
-        int i = -1;  // index going left to right
-        int j = arr.length;   // index going right to left
-        moves = -2; 
+        int i = -1;  // i starts off the array to account for the do-while
+        int j = arr.length - 1;   //j starts off at the last int so that i can compare it
+        moves = -1; //moves equals -1 to account for i moving onto the array
         
-        while (i < j) {
-            // Moving from left to right, find an element >= the pivot.
-                        // Moving from right to left, find an element <= the pivot.
-            //System.out.println(); 
-            //System.out.println("J moves:"); 
+        while (i < j) { //while i hasn't passed j in the array
+  
+            
+            do {
+                i++;
+                moves++; //keeps track of the moves
+            } while (i < arr.length && arr [i] + arr [j] < sum);
+            // first makes sure i hasn't iterated to the end, then sums i and j
+            
+            if (i == arr.length) 
+                return; 
+                //if i did make it to the end, then we can end
+            
+            if (arr [i] + arr [j] == sum)
+                System.out.println(arr [i] + " + " + arr [j] + 
+                                   " = " + (arr [i] + arr [j]));
+                // print out any integers that add up to the required sum of k 
             
             do {
                 j--;
                 moves++;
-                //System.out.print(arr[j] + "  "); 
-            } while (arr[j] > sum); 
+            } while (j > 0 && arr[j] + arr [i] > sum); 
             
-            //System.out.println();
-            //System.out.println("I moves:"); 
-            
-            do {
-                i++;
-                moves++;
-                //System.out.print(arr[i] + "  "); 
-            } while (arr [i] + arr [j] < sum);
-            
-
             if (arr [i] + arr [j] == sum)
                 System.out.println(arr [i] + " + " + arr [j] + " = " + (arr [i] + arr [j]));
 
@@ -180,7 +196,8 @@ public class PairSums {
             int [] a = randomArray((int) (Math.random() * (MAX_VAL)) + 1); 
             System.out.println("Random Array: "); 
             System.out.println(Arrays.toString (a)); 
-            int b = ((int) (Math.random() * (MAX_VAL * 2))); 
+            int b = ((int) (Math.random() * (MAX_VAL * 2)));
+            //^^increases likelyhood that some integers will sum to b
             System.out.println("Finding sums of " + b + " : "); 
             findPairs(b, a); 
             
