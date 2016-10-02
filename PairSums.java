@@ -136,19 +136,47 @@ public class PairSums {
         qSort(arr, 0, arr.length - 1); 
     }
     
+    public static void findPairsFaster(int k, int [] arr) {
+        int sum = k;
+        moves++;   // for the above assignment
+        int i = -1;  // index going left to right
+        int j = arr.length;   // index going right to left
+        
+        while (i < j) {
+            // Moving from left to right, find an element >= the pivot.
+            do {
+                i++;
+            } while (arr [i] > sum);
+            
+            // Moving from right to left, find an element <= the pivot.
+            do {
+                j--;
+            } while (arr[j] > sum); 
+            
+            // Swap the elements so that they end up in the correct
+            // subarray, or quit if the indices have overlapped or crossed.
+            if (arr [i] + arr [j] == sum)
+                System.out.println(arr [i] + " + " + arr [j] + " = " + (arr [i] + arr [j]));
+
+        }
+        return; 
+    }
+        
+    
     public static void main (String [] args) {
         for (int i = 0; i <= 5; i++) {
             int [] a = randomArray((int) (Math.random() * (MAX_VAL + 1))); 
             System.out.println("Random Array: "); 
             System.out.println(Arrays.toString (a)); 
-            int b = ((int) (Math.random() * (MAX_VAL + 1))); 
+            int b = ((int) (Math.random() * (MAX_VAL + 10))); 
             System.out.println("Finding sums of " + b + " : "); 
             findPairs(b, a); 
             
             //testing for findPairsFaster
             System.out.println("Sorted array: "); 
             quickSort(a); 
-            System.out.println(Arrays.toString(a)); 
+            System.out.println(Arrays.toString(a));
+            findPairsFaster(b, a);
             System.out.println(); 
         }
     }
