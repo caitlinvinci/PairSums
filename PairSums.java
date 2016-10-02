@@ -137,38 +137,50 @@ public class PairSums {
     }
     
     public static void findPairsFaster(int k, int [] arr) {
+        if (arr.length == 0 || arr == null)
+            return; 
         int sum = k;
-        moves++;   // for the above assignment
         int i = -1;  // index going left to right
         int j = arr.length;   // index going right to left
+        moves = -2; 
         
         while (i < j) {
             // Moving from left to right, find an element >= the pivot.
-            do {
-                i++;
-            } while (arr [i] > sum);
+                        // Moving from right to left, find an element <= the pivot.
+            //System.out.println(); 
+            //System.out.println("J moves:"); 
             
-            // Moving from right to left, find an element <= the pivot.
             do {
                 j--;
+                moves++;
+                //System.out.print(arr[j] + "  "); 
             } while (arr[j] > sum); 
             
-            // Swap the elements so that they end up in the correct
-            // subarray, or quit if the indices have overlapped or crossed.
+            //System.out.println();
+            //System.out.println("I moves:"); 
+            
+            do {
+                i++;
+                moves++;
+                //System.out.print(arr[i] + "  "); 
+            } while (arr [i] + arr [j] < sum);
+            
+
             if (arr [i] + arr [j] == sum)
                 System.out.println(arr [i] + " + " + arr [j] + " = " + (arr [i] + arr [j]));
 
         }
+        System.out.println("Number of sum tests: " + moves); 
         return; 
     }
         
     
     public static void main (String [] args) {
         for (int i = 0; i <= 5; i++) {
-            int [] a = randomArray((int) (Math.random() * (MAX_VAL + 1))); 
+            int [] a = randomArray((int) (Math.random() * (MAX_VAL)) + 1); 
             System.out.println("Random Array: "); 
             System.out.println(Arrays.toString (a)); 
-            int b = ((int) (Math.random() * (MAX_VAL + 10))); 
+            int b = ((int) (Math.random() * (MAX_VAL * 2))); 
             System.out.println("Finding sums of " + b + " : "); 
             findPairs(b, a); 
             
